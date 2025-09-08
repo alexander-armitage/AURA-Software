@@ -97,7 +97,7 @@ namespace ori {
 [[nodiscard]] Vect Quat::calc_error_axis(Quat desired) const {
   const Quat err_quat = desired * this->conjugate();
 
-  return Vect(err_quat.i(), err_quat.j(), err_quat.k());
+  return Vect(err_quat.i(), err_quat.j(), err_quat.k()).normalise();
 }
 
 // This function is slower than calc_error_axes only use if exact
