@@ -10,8 +10,8 @@ madgwick::madgwick(float beta, Vect ref_mag, Vect ref_acc)
   _beta = beta;
 }
 
-[[nodiscard]] void madgwick::madgwick::_combine_jacobian(
-    float jacobian_acc[3][4], float jacobian_mag[3][4]) {
+void madgwick::madgwick::_combine_jacobian(float jacobian_acc[3][4],
+                                           float jacobian_mag[3][4]) {
   for (int row = 0; row < 4; ++row) {
     for (int col = 0; col < 3; ++col) {
       _jacobian_t[row][col] = jacobian_acc[col][row];
@@ -24,7 +24,7 @@ madgwick::madgwick(float beta, Vect ref_mag, Vect ref_acc)
   }
 }
 
-[[nodiscard]] void madgwick::_jacobian(Quat q, Quat d, float jacobian[3][4]) {
+void madgwick::_jacobian(Quat q, Quat d, float jacobian[3][4]) {
   jacobian[0][0] = 2 * d.j() * q.k() - 2 * d.k() * q.j();
   jacobian[0][1] = 2 * d.j() * q.j() + 2 * d.k() * q.k();
   jacobian[0][2] = -4 * d.i() * q.j() + 2 * d.j() * q.i() - 2 * d.k() * q.w();
@@ -41,7 +41,7 @@ madgwick::madgwick(float beta, Vect ref_mag, Vect ref_acc)
   jacobian[2][3] = 2 * d.i() * q.i() + 2 * d.j() * q.j();
 }
 
-[[nodiscard]] void madgwick::_combine_cost_func(Quat cost_acc, Quat cost_mag) {
+void madgwick::_combine_cost_func(Quat cost_acc, Quat cost_mag) {
   _cost[0] = cost_acc.i();
   _cost[1] = cost_acc.j();
   _cost[2] = cost_acc.k();

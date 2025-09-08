@@ -14,12 +14,11 @@ class madgwick {
   const Quat _ref_mag;
   const Quat _ref_acc;
 
-  [[nodiscard]] void _combine_jacobian(float jacobian_acc[3][4],
-                                       float jacobian_mag[3][4]);
+  void _combine_jacobian(float jacobian_acc[3][4], float jacobian_mag[3][4]);
 
-  [[nodiscard]] void _jacobian(Quat q, Quat d, float jacobian[3][4]);
+  void _jacobian(Quat q, Quat d, float jacobian[3][4]);
 
-  [[nodiscard]] void _combine_cost_func(Quat cost_acc, Quat cost_mag);
+  void _combine_cost_func(Quat cost_acc, Quat cost_mag);
 
   [[nodiscard]] const Quat _cost_func(Quat q, Quat d, Quat s);
 
