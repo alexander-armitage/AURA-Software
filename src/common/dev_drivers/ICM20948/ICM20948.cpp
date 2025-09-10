@@ -122,13 +122,14 @@ void icm20948::update_mag() {
                 CONVERT_MAG -
             MAG_X_OFFS) *
            MAG_X_SCALE;
-  _mag_y = -(static_cast<float>(static_cast<int16_t>((mag >> 16) & AXIS_MASK)) *
-                 CONVERT_MAG -
-             MAG_Y_OFFS) *
-           MAG_Y_SCALE;
-  _mag_z = -(static_cast<float>(static_cast<int16_t>(mag & AXIS_MASK)) *
-                 CONVERT_MAG -
-             MAG_Z_OFFS) *
+  _mag_y =
+      ((-static_cast<float>(static_cast<int16_t>((mag >> 16) & AXIS_MASK)) *
+        CONVERT_MAG) -
+       MAG_Y_OFFS) *
+      MAG_Y_SCALE;
+  _mag_z = ((-static_cast<float>(static_cast<int16_t>(mag & AXIS_MASK)) *
+             CONVERT_MAG) -
+            MAG_Z_OFFS) *
            MAG_Z_SCALE;
 }
 // NOLINTEND(misc-magic-numbers, readability-magic-numbers)

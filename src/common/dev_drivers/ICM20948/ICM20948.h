@@ -100,13 +100,13 @@ constexpr float CONVERT_ACCEL = 208.767F;
 constexpr float CONVERT_GYRO = 938.74F;
 constexpr float CONVERT_MAG = 0.15F;
 
-constexpr float MAG_X_OFFS = -33.0F;
-constexpr float MAG_Y_OFFS = 17.13F;
-constexpr float MAG_Z_OFFS = 64.1F;
+constexpr float MAG_X_OFFS = 2.325001F;
+constexpr float MAG_Y_OFFS = 6.150002F;
+constexpr float MAG_Z_OFFS = -37.800003F;
 
-constexpr float MAG_X_SCALE = 0.022989F;
-constexpr float MAG_Y_SCALE = 0.021966F;
-constexpr float MAG_Z_SCALE = 0.020964F;
+constexpr float MAG_X_SCALE = 1.056497F;
+constexpr float MAG_Y_SCALE = 0.998932F;
+constexpr float MAG_Z_SCALE = 0.998932F;
 
 //
 // A wrapper class to handle communication with an ICM20948 device connected via
