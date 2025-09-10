@@ -30,10 +30,10 @@ void madgwick::_jacobian(Quat q, Quat d, float jacobian[3][4]) {
   jacobian[0][2] = -4 * d.i() * q.j() + 2 * d.j() * q.i() - 2 * d.k() * q.w();
   jacobian[0][3] = -4 * d.i() * q.k() + 2 * d.k() * q.w() + 2 * d.k() * q.i();
 
-  jacobian[1][0] = -2 * d.i() * q.k() + 2 * d.j() * q.i();
+  jacobian[1][0] = -2 * d.i() * q.k() + 2 * d.k() * q.i();
   jacobian[1][1] = 2 * d.i() * q.j() - 4 * d.j() * q.i() + 2 * d.k() * q.w();
   jacobian[1][2] = 2 * d.i() * q.j() + 2 * d.k() * q.k();
-  jacobian[1][3] = -2 * d.i() * q.w() - 4 * d.j() * q.k() + 2 * q.k() * q.j();
+  jacobian[1][3] = -2 * d.i() * q.w() - 4 * d.j() * q.k() + 2 * d.k() * q.j();
 
   jacobian[2][0] = 2 * d.i() * q.j() - 2 * d.j() * q.i();
   jacobian[2][1] = 2 * d.i() * q.k() - 2 * d.j() * q.w() - 4 * d.k() * q.i();
@@ -89,7 +89,8 @@ void madgwick::_combine_cost_func(Quat cost_acc, Quat cost_mag) {
     grad = grad.normalise();
   }
 
-  return ori + ((ori * gyro * 0.5F) - grad * _beta) * dt;
+  ori = ori + ((ori * gyro * 0.5F) - grad * _beta) * dt;
+  return ori.normalise();
 }
 
 }  // namespace ori
