@@ -11,8 +11,13 @@
 #include "esp_timer.h"
 #include "utility.h"
 
-void control_loop();
+namespace main {
+
+constexpr float RAD_TO_DEG = 57.3;
+constexpr float DEG_TO_RAD = 0.017452F;
+
+constexpr float PI = 3.1415;
 
 void core_0_task(void* args);
 
-auto update_yaw(float curr_yaw, float yaw_rate, float dt) -> float;
+}  // namespace main

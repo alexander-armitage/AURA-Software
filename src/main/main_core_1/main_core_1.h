@@ -8,4 +8,8 @@
 #include "SPI.h"
 #include "utility.h"
 
+namespace main {
+
 void core_1_task(void *args);
+
+}  // namespace main
