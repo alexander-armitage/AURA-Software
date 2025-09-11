@@ -93,4 +93,34 @@ void madgwick::_combine_cost_func(Quat cost_acc, Quat cost_mag) {
   return ori.normalise();
 }
 
+[[nodiscard]] const Quat madgwick::update_acc_gyro(Quat ori, Vect gyro_v,
+                                                   Vect acc_v, float dt) {
+  Quat gyro = Quat(0.0F, gyro_v.x(), gyro_v.y(), gyro_v.z());
+  Quat acc = Quat(0.0F, acc_v.x(), acc_v.y(), acc_v.z());
+
+  float jacobian_acc[3][4];
+
+  _jacobian(ori, _ref_acc, jacobian_acc);
+
+  Quat cost_acc_q = _cost_func(ori, _ref_acc, acc);
+  float cost_acc[3] = {cost_acc_q.i(), cost_acc_q.j(), cost_acc_q.k()};
+
+  float grad[4];
+  for (int i = 0; i < 4; ++i) {
+    grad[i] = 0.0f;
+    for (int j = 0; j < 3; ++j) {
+      grad[i] += jacobian_acc[j][i] * cost_acc[j];
+    }
+  }
+
+  Quat grad_q = Quat(grad[0], grad[1], grad[2], grad[3]);
+
+  if (grad_q.mag() > 1e-8F) {
+    grad_q = grad_q.normalise();
+  }
+
+  ori = ori + ((ori * gyro * 0.5F) - grad_q * _beta) * dt;
+  return ori.normalise();
+}
+
 }  // namespace ori

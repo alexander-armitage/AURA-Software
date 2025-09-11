@@ -31,6 +31,9 @@ class madgwick {
 
   [[nodiscard]] const Quat update(Quat ori, Vect gyro, Vect mag, Vect acc,
                                   float dt);
+
+  [[nodiscard]] const Quat update_acc_gyro(Quat ori, Vect gyro_v, Vect acc_v,
+                                           float dt);
 };
 
 }  // namespace ori
