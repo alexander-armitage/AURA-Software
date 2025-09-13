@@ -14,10 +14,14 @@ This project is still under development
 5. [License](#license)
 
 ## Overview
+AURA (Autonomous Universal Robotics Architecture) is a modular set of PCBs designed for robotics applications. This repository hosts the software designed using the [ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/index.html). To make the PCBs easier to use, this software holds libraries to run all of the sensors and other peripherals. It is worth noting despice the ESP-IDF being written in C, this is a C++ framework and makes heavy use of classes.
 
-## Installations
+## Installation
+This repository is a template repository designed to be used and filled in. To compile a project for the [AURA-Hardware](), the ESP-IDF must be installed following the instructions [here](). Once setup, the target should be changed to `esp32s3` and the clock speed should be ideally set to `240MHz`.
 
 ## Instructions
+### Setting up a project
+### Build process
 
 ## Repository Structure
 ```
