@@ -12,11 +12,25 @@ This project is still under development
 1. [Overview](#overview)
 2. [Installation](#installation)
 3. [Instructions](#instructions)
+   - [Setting up a Project](#setting-up-a-project)  
+   - [Using Libraries](#using-libraries)  
+     - [I2C](#i2c)  
+     - [SPI](#spi)  
+     - [ICM20948](#icm20948)
+     - [BMP280](#bmp280)
+     - [INA219](#ina219)
+     - [PCA9685](#pca9685)
+     - [Flash](#flash)
+     - [SD Card](#sd-card)
+     - [FSA8S](#fsa8s)
+   - [Build process](#build-process)
 4. [Repository Structure](#repository-structure)
 5. [License](#license)
 
 ## Overview
 AURA (Autonomous Universal Robotics Architecture) is a modular set of PCBs designed for robotics applications. This repository hosts the software designed using the [ESP-IDF](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/index.html). To make the PCBs easier to use, this software contains libraries to run all of the sensors and other peripherals. It is worth noting that despite the ESP-IDF being written in C, this is a C++ framework and makes heavy use of classes.
+
+A good demonstrator/example project of how to use this framework is the [AURA-Quadcopter](https://github.com/alexander-armitage/AURA-Quadcopter) repository.
 
 ## Installation
 This repository is a template repository designed to be used and filled in. To compile a project for the [AURA-Hardware](https://github.com/alexander-armitage/AURA-Hardware), the ESP-IDF must be installed following the instructions [here](https://docs.espressif.com/projects/esp-idf/en/stable/esp32/get-started/index.html#installation). Once setup, the target should be changed to `esp32s3` and the clock speed should be ideally set to `240MHz`.
@@ -26,8 +40,27 @@ This repository is a template repository designed to be used and filled in. To c
 After following the [installation](#installation), in the root directory `idf.py build` will compile the project or `idf.py flash` will flash the project to the target device.
 ### Using libraries
 #### I2C
+This library wraps the ESP-IDF I2C functions in an easy-to-use class which gets passed in by reference to the sensor functions that use I2C. `i2c::i2c_bus my_bus(SDA, SCL);` creates a bus object where `SDA` and `SCL` are of the `gpio_num_t` type.
+
 #### SPI
+This library is simply a wrapper of the ESP-IDF `spi_bus_initialize()` function. To initialise an SPI bus, an ESP-IDF SPI host of `spi_host_device_t` type must be defined (often `SPI2_HOST`). Then `spi::create_spi_bus(SPI_HOST, MOSI, MISO, SCLK);` initialises the SPI bus.
+
 #### ICM20948
+Once an I2C bus has been [initialised](#i2c) `icm20948::icm20948 my_icm(&my_bus);` creates an icm20948 object. Within this class there are essentially two I2C devices: the magnetometer, and the gyroscope and accelerometer which are on one bus.
+
+To read the gyroscope and accelerometer values first run `my_icm.update()` which will read the gyroscope and accelerometer code in one go to save time. After updating, the values (m/s^2 for accelerometer and rad/s for gyroscope) can be accested through the getter functions:
+- `float my_icm.acc_x()`
+- `float my_icm.acc_y()`
+- `float my_icm.acc_z()`
+- `float my_icm.gyro_x()`
+- `float my_icm.gyro_y()`
+- `float my_icm.gyro_z()`
+
+To read the magnetometer values first run `my_icm.update_mag()` which will read the magnetometer values in a specific sequence described in the [AK09916 datasheet](https://www.y-ic.es/datasheet/78/SMDSW.020-2OZ.pdf). After updating, the values (uT) can be accested through the getter functions:
+- `float my_icm.mag_x()`
+- `float my_icm.mag_y()`
+- `float my_icm.mag_z()`
+
 #### BMP280
 #### INA219
 #### PCA9685
@@ -35,7 +68,7 @@ After following the [installation](#installation), in the root directory `idf.py
 #### SD Card
 #### FSA8S
 ### Build process
-The build process for this project uses CMake and is confifure in the root CMakeLists.txt. If a custom library is to be added, the library must be added to the root CMakeLists.txt and the directory which is added must also have a CMakeLists.txt in the form of:
+The build process for this project uses CMake and is configured in the root CMakeLists.txt. If a custom library is to be added, the library must be added to the root CMakeLists.txt and the directory which is added must also have a CMakeLists.txt in the form of:
 ```
 idf_component_register(
   SRCS **SOURCE_FILE_CPP**
