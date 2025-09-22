@@ -110,8 +110,11 @@ idf_component_register(
 To add current libraries to files you must also include them in the CMakeLists.txt of the file which is including them.
 
 ## Contributing
-### Contributing Code 
+### Contributing Code
+This project is still early in development and has current only had a month and a half of development, so any contribution is welcome. To contribute, first fork the repository and use it with any esp dev kit and breakout modules. All code is written roughly following the Google style guide (clang) and should be thoroughly commented. Once the feature or fix has been made and bug tested, create a pull request which will be merged if it contributed positively to the framework. Current ideas would be: a kalman filter, LQR control, better I2C reading and writing functions.
+
 ### Issues
+As this framework is still in early development, issues are expected. Please raise them on GitHub with the hardware schematic (if applicable), and code causing the issue.
 
 ## Repository Structure
 ```
